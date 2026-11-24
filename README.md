@@ -133,3 +133,17 @@ node src/specification/export.mjs docs/fixtures/synthetic-ranking-input.json > c
 ```
 
 This operator-only command re-runs the deterministic ranking on an input JSON (`request`, `research`, `candidates`) and exports a UTF-8 BOM CSV suitable for spreadsheet import. It preserves URLs, recorded timestamps, availability, rejected and missing results; formula-like text is escaped. No live verification occurs here. The included fixture is entirely synthetic: its URL, price and timestamp are illustrative, not a commercial offer. Review actual source evidence before using or sending results. No purchase, XLSX/PDF generation or automatic batch dispatch is implemented by this command.
+
+## Native Excel files (offline)
+
+Install Python 3.12+ dependencies in a virtual environment alongside Node.js 22:
+
+```bash
+python3 -m venv .venv-xlsx
+.venv-xlsx/bin/pip install -r tools/requirements-xlsx.txt
+.venv-xlsx/bin/python tools/xlsx_io.py import specification.xlsx
+.venv-xlsx/bin/python tools/xlsx_io.py export docs/fixtures/synthetic-ranking-input.json comparison.xlsx
+.venv-xlsx/bin/python -m unittest discover -s tools -p 'test_xlsx_io.py' -v
+```
+
+Import requires a single visible worksheet with the exact text header `case_id,category,request`, 1–100 rows and no formulas, errors, hyperlinks or extra columns. The same Node CSV validator determines row validity. ZIP and XML input limits apply. Export uses the existing deterministic ranking and creates a new workbook with typed numeric prices, source references and rejection rows; existing files are not overwritten. The example is synthetic, not a commercial offer. No live verification or automatic dispatch is performed.
