@@ -1,0 +1,56 @@
+{
+  "request": {
+    "budget": {
+      "min": null,
+      "max": 100000,
+      "currency": "RUB"
+    }
+  },
+  "research": {
+    "primary_model": {
+      "model": "Synthetic A",
+      "search_query": "Synthetic A",
+      "why": [
+        "Illustrative fixture only"
+      ]
+    },
+    "analogs": [],
+    "selection_criteria": [
+      {
+        "name": "capacity",
+        "reason": "Synthetic fixture"
+      }
+    ],
+    "sources": [
+      {
+        "title": "Synthetic source",
+        "url": "https://example.com/",
+        "supports": "Not a real supplier result"
+      }
+    ],
+    "research_caveats": [
+      "Synthetic example only; no live data"
+    ]
+  },
+  "candidates": [
+    {
+      "requested_model": "Synthetic A",
+      "role": "primary",
+      "status": "found",
+      "title": "Synthetic equipment A (not a real offer)",
+      "item_id": "123",
+      "price_rub": 90000,
+      "availability": "Synthetic availability",
+      "available": true,
+      "url": "https://entero.ru/item/123",
+      "verified_at": "2026-11-24T00:00:00Z",
+      "matched_constraints": [
+        "Synthetic capacity"
+      ],
+      "failed_constraints": [],
+      "caveats": [
+        "Synthetic example; URL and price are illustrative and not checked"
+      ]
+    }
+  ]
+}
