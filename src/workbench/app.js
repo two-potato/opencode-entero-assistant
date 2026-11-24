@@ -12,7 +12,7 @@ async function sample(url,target,status) {
   catch{$(status).textContent="Не удалось загрузить пример.";}
 }
 function resetComparison(){
-  exportCsv=null;$("download").disabled=true;$("offers").replaceChildren();$("caveats").textContent="";
+  exportCsv=null;$("download").disabled=true;$("print").disabled=true;$("offers").replaceChildren();$("caveats").textContent="";
   for(const id of ["primary-count","analog-count","rejected-count"])$(id).textContent="—";
 }
 function file(input,target,status,limit,clear){
@@ -56,12 +56,12 @@ $("compare").addEventListener("click",async()=>{
     const r=result.ranked, accepted=[r.primary,...r.analogs].filter(Boolean);
     $("primary-count").textContent=r.primary?1:0;$("analog-count").textContent=r.analogs.length;
     $("rejected-count").textContent=r.rejected.length;
-    const rows=accepted.map(x=>[x.role,x.title,money.format(x.price_rub),x.availability,x.url,x.verified_at,x.caveats.join("; ")]);
+    const rows=accepted.map(x=>[x.role,x.title,money.format(x.price_rub),x.availability,x.url,x.verified_at,[...x.matched_constraints,...x.caveats].join("; ")]);
     for(const x of [...r.not_found,...r.rejected])rows.push([x.status??"rejected",x.requested_model,"—","—","—","—",x.reason]);
     table("offers",["Статус","Модель","Цена","Наличие","Источник (текст)","Время","Примечания"],rows);
     $("caveats").textContent=(r.primary?"":"Нет принятого предложения. ")+(r.shortfall?"Не хватает аналогов: "+r.shortfall.missing:"");
     $("rank-status").textContent="Ранжирование выполнено локально. Источники не проверялись.";
-    exportCsv=result.csv;$("download").disabled=false;
+    exportCsv=result.csv;$("download").disabled=false;$("print").disabled=false;
   }catch(e){$("rank-status").textContent=e.message;}finally{$("compare").disabled=false;}
 });
 $("download").addEventListener("click",()=>{
@@ -70,3 +70,5 @@ $("download").addEventListener("click",()=>{
   const a=document.createElement("a");a.href=url;a.download="comparison.csv";a.click();
   setTimeout(()=>URL.revokeObjectURL(url),1000);
 });
+
+$("print").addEventListener("click",()=>{if(exportCsv!==null)window.print();});
