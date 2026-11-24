@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 
-const tools = await import("../.opencode/tools/procurement.js").catch(() => ({}));
+const tools = await import("../.opencode/tools/procurement.js");
 const { rank_offers: rankOffers, validate_research: validateResearch } = tools;
 
 const research = {
