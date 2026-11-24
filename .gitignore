@@ -9,3 +9,8 @@ __pycache__/
 *.pyc
 comparison.csv
 comparison.xlsx
+
+.runtime/
+.env
+.env.*
+!.env.example
