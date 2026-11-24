@@ -115,3 +115,13 @@ The orchestrator extracts hard requirements, delegates public research, validate
 The project is AI-assisted. The meaningful next milestone is a repeatable procurement benchmark against human-reviewed results, not a claim of production readiness.
 
 See [evaluation protocol](docs/EVALUATION.md) for sample tasks, scoring rules, and the roadmap to spreadsheet intake and export.
+
+## Specification intake (offline)
+
+Validate a UTF-8 CSV containing 1–100 equipment requests before any AI execution:
+
+```bash
+node src/specification/intake.mjs docs/benchmark-cases.csv
+```
+
+The exact header is `case_id,category,request`. The command validates quoting, unique IDs, category, text length and batch limits; any invalid row blocks the entire batch. It outputs normalized JSON without model or supplier calls. The 50 synthetic requests are a candidate benchmark, not measured results. Review them before live evaluation. XLSX, PDF and automatic batch dispatch are not implemented.
