@@ -43,10 +43,13 @@ async function fetchAllowedHtml(input, deps = {}) {
     try {
       const response = await fetchImpl(requested.href, {
         method: "GET",
-        redirect: "follow",
+        redirect: "manual",
         signal: controller.signal,
         headers: { "User-Agent": USER_AGENT, Accept: "text/html,application/xhtml+xml" },
       });
+      if (response.status >= 300 && response.status < 400) {
+        throw structuredError("ENTERO_REDIRECT_DENIED", "Entero redirects are not followed", requested.href);
+      }
       const finalUrl = assertAllowedEnteroUrl(response.url);
       if (!response.ok) {
         throw structuredError("ENTERO_HTTP_ERROR", `Entero returned HTTP ${response.status}`, finalUrl.href);

@@ -161,3 +161,14 @@ Open http://127.0.0.1:4173. The local server accepts CSV and ranking-input JSON,
 `node src/specification/batch.mjs specification.csv evidence.json` accepts a JSON array of `{ "case_id": "R01", "input": { "request": ..., "research": ..., "candidates": [...] } }` records. IDs must match the specification exactly. Missing or invalid evidence is retained in the output; the command exits nonzero for incomplete batches. This re-ranks saved input only: the operator must verify the association of each record to its request and check the actual supplier sources. It does not launch OpenCode or claim live verification.
 
 `node src/evaluation/score.mjs docs/benchmark-cases.csv docs/evaluation-results.csv` aggregates human-reviewed results. The committed empty template reports NOT_RUN; it never invents measurements. See [evaluation protocol](docs/EVALUATION.md).
+
+## Bounded live OpenCode batch (experimental)
+
+Linux operator-only command, not a web endpoint. Requires the pinned OpenCode runtime and configured provider; live requests may consume quota or incur charges. Use synthetic, non-confidential specifications. From the repository root:
+
+```bash
+mkdir -p .runtime
+node src/specification/live-batch.mjs --live docs/benchmark-cases.csv 1 .runtime/live-01.json
+```
+
+One case by default in the documented command, explicitly 1–5 per run. Fresh sequential invocations of the existing read-only wrapper; no shell interpolation, no automatic retries, 180-second process timeout and 1 MiB limits on each output stream. The operator must ensure trusted local OpenCode/config and provider; this is not a sandbox or a provider spending cap. A timeout is not a refund or proof that provider-side work stopped. Capture only completed rank tool arguments from JSON events, require matching case request and terminal stop, and re-rank locally. Any mismatch or clarification becomes unreviewable rather than a fabricated result. Output is a new owner-only file; never commit actual customer data or provider output. The event format is based on the [OpenCode JSON event reference](https://takopi.dev/reference/runners/opencode/stream-json-cheatsheet/); compatibility with the pinned runtime and real model has not been verified. Tests use synthetic streams and real local subprocesses, not a provider. A domain reviewer still must check every offer and source, then record benchmark results. No live quality or cost measurements are claimed.

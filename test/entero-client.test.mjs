@@ -89,3 +89,14 @@ test("exposes structured HTTP errors without response internals", async () => {
     },
   );
 });
+
+test("does not follow redirects before validating the destination", async () => {
+  let calls = 0;
+  const fetch = async (url, options) => {
+    calls++;
+    assert.equal(options.redirect, "manual");
+    return response("", url, 302);
+  };
+  await assert.rejects(searchEntero({query:"кофемашина"},{fetch}), e=>e.code==="ENTERO_REDIRECT_DENIED");
+  assert.equal(calls,1);
+});
