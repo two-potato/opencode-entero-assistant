@@ -172,3 +172,15 @@ node src/specification/live-batch.mjs --live docs/benchmark-cases.csv 1 .runtime
 ```
 
 One case by default in the documented command, explicitly 1–5 per run. Fresh sequential invocations of the existing read-only wrapper; no shell interpolation, no automatic retries, 180-second process timeout and 1 MiB limits on each output stream. The operator must ensure trusted local OpenCode/config and provider; this is not a sandbox or a provider spending cap. A timeout is not a refund or proof that provider-side work stopped. Capture only completed rank tool arguments from JSON events, require matching case request and terminal stop, and re-rank locally. Any mismatch or clarification becomes unreviewable rather than a fabricated result. Output is a new owner-only file; never commit actual customer data or provider output. The event format is based on the [OpenCode JSON event reference](https://takopi.dev/reference/runners/opencode/stream-json-cheatsheet/); compatibility with the pinned runtime and real model has not been verified. Tests use synthetic streams and real local subprocesses, not a provider. A domain reviewer still must check every offer and source, then record benchmark results. No live quality or cost measurements are claimed.
+
+## Browser verification and PDF review draft
+
+```bash
+python3 -m venv .venv-browser
+.venv-browser/bin/pip install -r tools/requirements-browser.txt
+.venv-browser/bin/python -m playwright install chromium
+.venv-browser/bin/python tools/pdf_review.py docs/fixtures/synthetic-ranking-input.json comparison.pdf
+.venv-browser/bin/python -m unittest discover -s tools -p 'test_browser_pdf.py' -v
+```
+
+Linux may require Chromium system packages (`playwright install --with-deps chromium`). The PDF is an explicitly marked review-only draft, not an offer, invoice or a verified price list. It reuses the local ranking/export pipeline, preserves sources and exclusions, and does not invent quantities, VAT, delivery terms or totals across alternatives. Rendering is offline and script-disabled. The browser tests use only synthetic fixtures; CI publishes their screenshot and sample PDF. Real procurement records must stay local and receive human approval before use.
