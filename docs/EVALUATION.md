@@ -4,6 +4,8 @@ Status: proposed benchmark, NOT RUN. No measured time savings, accuracy or live 
 
 ## Dataset
 
+A concrete [50-case synthetic dataset](benchmark-cases.csv) is available for domain review. Validate it with `node src/specification/intake.mjs docs/benchmark-cases.csv`. Freeze the reviewed revision before running the benchmark. These cases are not customer data or verified supplier results.
+
 Freeze 50 anonymized, human-reviewed requirements before running the assistant. Use 10 cases each for refrigeration, thermal equipment, bakery, dishwashing and small equipment. Include budget boundaries, dimensions, voltage, capacity, ambiguous requests, out-of-stock products and missing specifications. Use public product pages and synthetic customer requirements only; no client or employer data.
 
 Examples for fixture design (not verified catalog results):
