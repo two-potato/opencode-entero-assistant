@@ -53,8 +53,10 @@ Use [results template](evaluation-results.csv). Keep one row per case, including
 
 ## Roadmap
 
-- [ ] Portable onboarding and automated fixture tests.
-- [ ] Implement validated CSV/XLSX intake with row-level errors; add PDF extraction separately with explicit human confirmation for ambiguous fields.
-- [ ] Produce comparable offer tables with original source URLs, timestamps and missing-field markers.
-- [ ] Add CSV/XLSX and PDF export; human approval before sending any commercial document.
+- [x] Portable onboarding and automated fixture tests.
+- [x] Validated CSV/XLSX intake with row-level errors.
+- [ ] PDF extraction with explicit human confirmation for ambiguous fields.
+- [x] Offline comparable offer tables with source URLs, recorded timestamps and rejection/missing rows.
+- [x] Offline CSV/XLSX comparison export (not live verification).
+- [ ] PDF export; human approval before sending any commercial document.
 - [ ] Execute the frozen 50-case benchmark and publish actual results with reproducible revision and environment.
