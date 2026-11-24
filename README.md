@@ -124,7 +124,7 @@ Validate a UTF-8 CSV containing 1–100 equipment requests before any AI executi
 node src/specification/intake.mjs docs/benchmark-cases.csv
 ```
 
-The exact header is `case_id,category,request`. The command validates quoting, unique IDs, category, text length and batch limits; any invalid row blocks the entire batch. It outputs normalized JSON without model or supplier calls. The 50 synthetic requests are a candidate benchmark, not measured results. Review them before live evaluation. XLSX, PDF and automatic batch dispatch are not implemented.
+The exact header is `case_id,category,request`. The command validates quoting, unique IDs, category, text length and batch limits; any invalid row blocks the entire batch. It outputs normalized JSON without model or supplier calls. The 50 synthetic requests are a candidate benchmark, not measured results. Review them before live evaluation. XLSX is available separately below; PDF and automatic batch dispatch are not implemented.
 
 ## Comparison export (offline)
 
@@ -147,3 +147,11 @@ python3 -m venv .venv-xlsx
 ```
 
 Import requires a single visible worksheet with the exact text header `case_id,category,request`, 1–100 rows and no formulas, errors, hyperlinks or extra columns. The same Node CSV validator determines row validity. ZIP and XML input limits apply. Export uses the existing deterministic ranking and creates a new workbook with typed numeric prices, source references and rejection rows; existing files are not overwritten. The example is synthetic, not a commercial offer. No live verification or automatic dispatch is performed.
+
+## Local browser workbench
+
+```bash
+npm run demo
+```
+
+Open http://127.0.0.1:4173. The local server accepts CSV and ranking-input JSON, validates rows, displays the existing deterministic ranking and exports a comparison CSV. Use the built-in synthetic examples to demonstrate the flow. No model/supplier requests, automatic procurement, live verification, or storage of submitted data. The XLSX commands remain separate CLI tools. The server binds to IPv4 loopback and is not intended for deployment on the internet. HTTP integration tests exercise the API and asset responses, not visual browser rendering.

@@ -4,6 +4,7 @@
   "type": "module",
   "scripts": {
     "test": "node --test",
-    "test:unit": "node --test test/*.test.mjs"
+    "test:unit": "node --test test/*.test.mjs",
+    "demo": "node src/workbench/server.mjs"
   }
 }
