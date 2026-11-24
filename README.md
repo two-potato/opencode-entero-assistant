@@ -125,3 +125,11 @@ node src/specification/intake.mjs docs/benchmark-cases.csv
 ```
 
 The exact header is `case_id,category,request`. The command validates quoting, unique IDs, category, text length and batch limits; any invalid row blocks the entire batch. It outputs normalized JSON without model or supplier calls. The 50 synthetic requests are a candidate benchmark, not measured results. Review them before live evaluation. XLSX, PDF and automatic batch dispatch are not implemented.
+
+## Comparison export (offline)
+
+```bash
+node src/specification/export.mjs docs/fixtures/synthetic-ranking-input.json > comparison.csv
+```
+
+This operator-only command re-runs the deterministic ranking on an input JSON (`request`, `research`, `candidates`) and exports a UTF-8 BOM CSV suitable for spreadsheet import. It preserves URLs, recorded timestamps, availability, rejected and missing results; formula-like text is escaped. No live verification occurs here. The included fixture is entirely synthetic: its URL, price and timestamp are illustrative, not a commercial offer. Review actual source evidence before using or sending results. No purchase, XLSX/PDF generation or automatic batch dispatch is implemented by this command.

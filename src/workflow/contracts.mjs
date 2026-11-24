@@ -55,7 +55,7 @@ function researchSource(value, index) {
   } catch {
     throw researchError(`Invalid source URL at sources[${index}]`);
   }
-  if (url.protocol !== "http:" && url.protocol !== "https:") {
+  if ((url.protocol !== "http:" && url.protocol !== "https:") || url.username || url.password) {
     throw researchError(`Invalid source URL at sources[${index}]`);
   }
   return {
@@ -132,14 +132,15 @@ function normalizeBudget(value) {
   const budget = rankObject(value, "request.budget");
   const normalizeBound = (bound, name) => {
     if (bound === null || bound === undefined) return null;
-    if (!Number.isInteger(bound) || bound <= 0) throw rankError(`${name} must be a positive integer or null`);
+    if (!Number.isSafeInteger(bound) || bound <= 0) throw rankError(`${name} must be a positive integer or null`);
     return bound;
   };
-  return {
-    min: normalizeBound(budget.min, "request.budget.min"),
-    max: normalizeBound(budget.max, "request.budget.max"),
-    currency: rankText(budget.currency, "request.budget.currency"),
-  };
+  const min = normalizeBound(budget.min, "request.budget.min");
+  const max = normalizeBound(budget.max, "request.budget.max");
+  const currency = rankText(budget.currency, "request.budget.currency");
+  if (currency !== "RUB") throw rankError("Budget currency must be RUB");
+  if (min !== null && max !== null && min > max) throw rankError("Budget minimum exceeds maximum");
+  return { min, max, currency };
 }
 
 function isValidTimestamp(value) {
@@ -158,10 +159,10 @@ function normalizeFoundCandidate(candidate, expected, index) {
   } catch {
     throw rankError("candidate URL is invalid");
   }
-  if (url.origin !== "https://entero.ru" || url.pathname !== `/item/${itemId}` || url.search || url.hash) {
+  if (url.origin !== "https://entero.ru" || url.pathname !== `/item/${itemId}` || url.search || url.hash || url.username || url.password) {
     throw rankError("candidate URL is not a verified Entero item URL");
   }
-  if (!Number.isInteger(candidate.price_rub) || candidate.price_rub <= 0) {
+  if (!Number.isSafeInteger(candidate.price_rub) || candidate.price_rub <= 0) {
     throw rankError("price_rub must be a positive integer");
   }
   if (typeof candidate.available !== "boolean") throw rankError("available must be boolean");
