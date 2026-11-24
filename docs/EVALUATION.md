@@ -58,7 +58,7 @@ Use [results template](evaluation-results.csv). Keep one row per case, including
 - [ ] PDF extraction with explicit human confirmation for ambiguous fields.
 - [x] Offline comparable offer tables with source URLs, recorded timestamps and rejection/missing rows.
 - [x] Offline CSV/XLSX comparison export (not live verification).
-- [ ] PDF export; human approval before sending any commercial document.
+- [x] Offline PDF comparison draft; human approval remains required before sending any commercial document.
 - [ ] Execute the frozen 50-case benchmark and publish actual results with reproducible revision and environment.
 
 ## Automated aggregation (offline)
