@@ -155,3 +155,9 @@ npm run demo
 ```
 
 Open http://127.0.0.1:4173. The local server accepts CSV and ranking-input JSON, validates rows, displays the existing deterministic ranking and exports a comparison CSV. Use the built-in synthetic examples to demonstrate the flow. No model/supplier requests, automatic procurement, live verification, or storage of submitted data. The XLSX commands remain separate CLI tools. The server binds to IPv4 loopback and is not intended for deployment on the internet. HTTP integration tests exercise the API and asset responses, not visual browser rendering.
+
+## Offline batch review and evaluation
+
+`node src/specification/batch.mjs specification.csv evidence.json` accepts a JSON array of `{ "case_id": "R01", "input": { "request": ..., "research": ..., "candidates": [...] } }` records. IDs must match the specification exactly. Missing or invalid evidence is retained in the output; the command exits nonzero for incomplete batches. This re-ranks saved input only: the operator must verify the association of each record to its request and check the actual supplier sources. It does not launch OpenCode or claim live verification.
+
+`node src/evaluation/score.mjs docs/benchmark-cases.csv docs/evaluation-results.csv` aggregates human-reviewed results. The committed empty template reports NOT_RUN; it never invents measurements. See [evaluation protocol](docs/EVALUATION.md).

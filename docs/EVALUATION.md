@@ -60,3 +60,7 @@ Use [results template](evaluation-results.csv). Keep one row per case, including
 - [x] Offline CSV/XLSX comparison export (not live verification).
 - [ ] PDF export; human approval before sending any commercial document.
 - [ ] Execute the frozen 50-case benchmark and publish actual results with reproducible revision and environment.
+
+## Automated aggregation (offline)
+
+Run `node src/evaluation/score.mjs docs/benchmark-cases.csv docs/evaluation-results.csv`. The committed template contains no observations, so the status is NOT_RUN. Review rows must use `accepted`, `abstained`, `rejected`, `failed`, or `unavailable`, unique case IDs, one model and full 40-character Git revision, UTC timestamp and an evidence reference. Count columns are nonnegative integers, the abstention flag is `true`/`false`, unknown time/token/cost values are blank. A reviewer supplies all counts and status. The completion denominator includes missing cases; ratios with zero denominator are null, and currencies are never combined. Median and nearest-rank p95 use recorded wall times only; paired time uses only rows with both values. Record failures and missing observations; the report is not independent validation of claims or live benchmark execution.

@@ -6,7 +6,7 @@ const LIMIT = 256 * 1024;
 const HEADERS = ["case_id", "category", "request"];
 const CATEGORIES = new Set(["refrigeration", "thermal", "bakery", "dishwashing", "small_equipment"]);
 
-function csvRows(input) {
+export function csvRows(input) {
   const text = input.replace(/^\uFEFF/, "");
   const rows = [];
   let row = [], cell = "", quoted = false, closed = false;
