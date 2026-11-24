@@ -1,0 +1,27 @@
+name: Offline tests
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: npm ci --prefix .opencode
+      - run: npm run test:unit
+      - run: |
+          node --check src/request/normalize.mjs
+          node --check src/entero/policy.mjs
+          node --check src/entero/parser.mjs
+          node --check src/entero/client.mjs
+          node --check src/workflow/contracts.mjs
+          node --check .opencode/tools/procurement.js

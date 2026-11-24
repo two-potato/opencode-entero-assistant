@@ -1,4 +1,10 @@
-# OpenCode-помощник для подбора товаров Entero
+# OpenCode Entero Assistant
+
+**Applied AI for professional equipment procurement: research, verification and offer ranking.**
+
+> Status: read-only prototype. Automated tests are available; live procurement accuracy, time savings and cost have not yet been established. See [evaluation protocol](docs/EVALUATION.md).
+
+[Русский сценарий работы ниже](#запуск).
 
 Локальный read-only помощник принимает абстрактный запрос на русском языке,
 сначала исследует общий интернет, а затем проверяет выбранные модели в каталоге
@@ -7,11 +13,13 @@ Entero. Коммерческая часть ответа строится тол
 
 ## Запуск
 
-Требуется OpenCode 1.18.16 и настроенный локальный провайдер моделей из
-`opencode.json`.
+Требуется OpenCode 1.18.16 (версия исходного сценария), Node.js 22 для тестов и настроенный провайдер моделей. Проверьте, что модели в `opencode.json` доступны вашему аккаунту; текущий проект и конфигурационные тесты закрепляют конкретный набор моделей. Для другого провайдера нужна отдельная проверенная конфигурация и адаптация тестов. Не храните ключи в репозитории.
 
 ```bash
-cd /home/twopotato/dev/wibe/opencode/unknown
+git clone https://github.com/two-potato/opencode-entero-assistant.git
+cd opencode-entero-assistant
+npm ci --prefix .opencode
+npm test
 ./opencode-entero .
 ```
 
@@ -99,3 +107,11 @@ node --check .opencode/tools/procurement.js
 Live-проверка использует публичный интернет, Entero и настроенный модельный
 провайдер, поэтому её результат зависит от их доступности. Она остаётся
 read-only и не должна вызывать элементы покупки или кабинета.
+
+## Engineering overview (EN)
+
+The orchestrator extracts hard requirements, delegates public research, validates sources and candidate uniqueness, then searches the supplier catalog. The ranking step rejects unverifiable offers and mandatory-constraint violations. The assistant does not place orders or modify supplier accounts.
+
+The project is AI-assisted. The meaningful next milestone is a repeatable procurement benchmark against human-reviewed results, not a claim of production readiness.
+
+See [evaluation protocol](docs/EVALUATION.md) for sample tasks, scoring rules, and the roadmap to spreadsheet intake and export.
