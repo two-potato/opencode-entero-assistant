@@ -3,3 +3,9 @@ node_modules/
 .omo/
 .opencode/runtime/
 *.log
+
+.venv*/
+__pycache__/
+*.pyc
+comparison.csv
+comparison.xlsx
